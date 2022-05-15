@@ -11,7 +11,7 @@ Shader "Effects/Dither"
         _TR("Direction", Vector) = (0.0, 0.0, 0.0, 0.0)
         _BR("Direction", Vector) = (0.0, 0.0, 0.0, 0.0)
         _Tiling("Tiling", Float) = 192.0
-        _Threshold("Threshold", Float) = 0.1
+        _Threshold("Threshold", Range(0.0, 1.0)) = 0.1
     }
         SubShader
 {
@@ -65,14 +65,16 @@ Shader "Effects/Dither"
         float _Tiling;
         float _Threshold;
 
+		const float PI = 3.1415926535897932384626433832795;
+
         float cylinderProject(sampler2D tex, float2 texel, float3 dir) {
-            float u = 0.5 + (atan2(dir.x, -dir.z) / 3.14159265);
+            float u = 0.5 + (atan2(dir.x, -dir.z) / PI);
             return tex2D(tex, texel * _Tiling * float2(u, 0.5f + dir.y)).r;
         }
 
         float uvSphereProject(sampler2D tex, float2 texel, float3 dir) {
-            float u = 0.5 + 0.5 * (atan2(dir.x, -dir.z) / 3.14159265);
-            float v = 0.5 - (acos(dir.y) / 3.14159265);
+            float u = 0.5 + 0.5 * (atan2(dir.x, -dir.z) / PI);
+            float v = 0.5 - (acos(dir.y) / PI);
             return tex2D(tex, _Tiling * float2(u,v)).r;
 
         }

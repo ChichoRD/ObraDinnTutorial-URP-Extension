@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteAlways]
+[System.Obsolete("Use the new Renderer Features instead")]
 public class ObraDinn : MonoBehaviour
 {
 
